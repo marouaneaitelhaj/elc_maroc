@@ -63,10 +63,13 @@
           }
         </style>
         <a href="addproduct">
-          <i class="fa-solid fa-p"></i>
+          <p class="text-white">add product</p>
         </a>
         <a href="addcategory">
-          <i class="fa-solid fa-c"></i>
+          <p class="text-white">Addcategory</p>
+        </a>
+        <a href="dashborad">
+        <p class="text-white">dashborad</p>
         </a>
       <?php
       }

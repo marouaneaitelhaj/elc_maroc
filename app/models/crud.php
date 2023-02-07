@@ -26,13 +26,30 @@ class crud extends Database
         if (isset($_GET['id']) and isset($_GET['cat'])) {
             $id = ($_GET['id'] - 1) * 9;
             $cat = $_GET['cat'];
-            $sql = "SELECT * FROM `produit` where `catégorie`=$cat LIMIT $id,9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='true'and  `catégorie`=$cat LIMIT $id,9;";
         } elseif (isset($_GET['id'])) {
             $id = ($_GET['id'] - 1) * 9;
-            $sql = "SELECT * FROM `produit`  LIMIT $id, 9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='true'  LIMIT $id, 9;";
         } else {
-            $sql = "SELECT * FROM `produit` LIMIT  9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='true' LIMIT  9;";
         }
+        $res = [];
+        foreach (mysqli_query($this->conn, $sql) as $re) {
+            array_push($res, $re);
+        }
+        return $res;
+    }
+    public function visibility()
+    {
+        $id = $_GET['id'];
+        $vis = $_GET['vis'];
+        $sql = "UPDATE `produit` SET `visibility`='$vis' WHERE `IdPrd`=$id ";
+        mysqli_query($this->conn, $sql);
+        var_dump($sql);
+    }
+    public function admnlimitread()
+    {
+        $sql = "SELECT * FROM `produit`;";
         $res = [];
         foreach (mysqli_query($this->conn, $sql) as $re) {
             array_push($res, $re);
@@ -60,12 +77,12 @@ class crud extends Database
     public function addproduct($value1, $value3, $value4, $value5, $value6, $value7, $value8)
     {
         $image = $value8["name"];
-        $sql = "INSERT INTO produit (libelle, prixdachat, prixfinal, Prixoffre, description, catégorie,picProcuct) VALUES ('$value1','$value3','$value4','$value5','$value6','$value7','$image');";
+        $sql = "INSERT INTO produit (libelle, prixdachat, prixfinal, Prixoffre, description, catégorie,picProcuct,visibility) VALUES ('$value1','$value3','$value4','$value5','$value6','$value7','$image',public);";
         mysqli_query($this->conn, $sql);
     }
     public function readCatégorie()
     {
-        $this->query = mysqli_query($this->conn, 'SELECT * FROM catégorie');
+        $this->query = mysqli_query($this->conn, 'SELECT * FROM catégorie where `visibility`="public"');
     }
     public function readCatégorieByid($value1)
     {
@@ -83,7 +100,7 @@ class crud extends Database
     }
     public function suggestion()
     {
-        $this->query = mysqli_query($this->conn, 'SELECT * FROM produit LIMIT 3;');
+        $this->query = mysqli_query($this->conn, 'SELECT * FROM produit WHERE `visibility`="true" ORDER BY RAND() LIMIT 3');
     }
     public function details()
     {
