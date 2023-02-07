@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik');
+*{
+    font-family: 'Rubik', sans-serif;
+}
+:root {
+    --main-color: #fd5900;
+}
+.ds{
+    color: var(--main-color);
+}
+.wid500{
+    height: 450px;
+}
+.container{
+    text-align: center;
+    width: 100%;
+    min-height: 85vh;
+    
+}
+.shopping-cart {
+    display: none;
+  }
+.card{
+    margin: auto;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+}
+body > div > div.row > div:nth-child(1) > h1 > span:nth-child(2){
+    font-weight: Thin;
+}
+.btn{
+    color: white;
+    background-color: var(--main-color);
+}
+.btn:hover{
+    color: var(--main-color);
+    background-color: white;
+}
+nav{
+    background-color: var(--main-color);
+}
+i{
+    color: white;
+}
+.wi{
+    font-weight: bolder;
+    color: whitesmoke;
+}
+@media (min-width: 1200px) {
+    /* h1{
+        font-size: 20px;
+    } */
+}
