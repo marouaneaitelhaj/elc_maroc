@@ -11,13 +11,13 @@
         foreach ($data['read'] as $read) {
         ?>
             <tr>
-                <td><?= substr($read["libelle"], 0, 20) ?></td>
-                <td><?= substr($read["description"], 0, 20) ?></td>
+                <td><?= $read["nom"] ?></td>
+                <td><?= substr($read["description"], 0, 30) ?></td>
                 <td>
-                    <a href="./Delete?id=<?= $read['IdPrd'] ?>">
+                    <a href="./DeleteCat?id=<?= $read['IdCat'] ?>">
                         <button class="btn">Delete</button>
                     </a>
-                    <a href="./editproduct?id=<?= $read['IdPrd'] ?>">
+                    <a href="./editCat?id=<?= $read['IdCat'] ?>">
                         <button class="btn">Edit</button>
                     </a>
                     <?php
@@ -28,8 +28,8 @@
                         $vis = 'public';
                     }
                     ?>
-                    <a href="./visibility?id=<?= $read['IdPrd'] ?>&vis=<?=$vis?>">
-                        <button class="btn">change make this <?=$vis?></button>
+                    <a href="./visibilitycat?id=<?= $read['IdCat'] ?>&vis=<?= $vis ?>">
+                        <button class="btn">change make this <?= $vis ?></button>
                     </a>
                 </td>
             </tr>

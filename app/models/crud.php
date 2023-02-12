@@ -26,12 +26,12 @@ class crud extends Database
         if (isset($_GET['id']) and isset($_GET['cat'])) {
             $id = ($_GET['id'] - 1) * 9;
             $cat = $_GET['cat'];
-            $sql = "SELECT * FROM `produit` where `visibility`='true'and  `catégorie`=$cat LIMIT $id,9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='public' and  `catégorie`=$cat LIMIT $id,9;";
         } elseif (isset($_GET['id'])) {
             $id = ($_GET['id'] - 1) * 9;
-            $sql = "SELECT * FROM `produit` where `visibility`='true'  LIMIT $id, 9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='public'  LIMIT $id, 9;";
         } else {
-            $sql = "SELECT * FROM `produit` where `visibility`='true' LIMIT  9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='public' LIMIT  9;";
         }
         $res = [];
         foreach (mysqli_query($this->conn, $sql) as $re) {
@@ -47,9 +47,26 @@ class crud extends Database
         mysqli_query($this->conn, $sql);
         var_dump($sql);
     }
+    public function visibilitycat()
+    {
+        $id = $_GET['id'];
+        $vis = $_GET['vis'];
+        $sql = "UPDATE `catégorie` SET `visibility`='$vis' WHERE `IdCat`=$id ";
+        mysqli_query($this->conn, $sql);
+        var_dump($sql);
+    }
     public function admnlimitread()
     {
         $sql = "SELECT * FROM `produit`;";
+        $res = [];
+        foreach (mysqli_query($this->conn, $sql) as $re) {
+            array_push($res, $re);
+        }
+        return $res;
+    }
+    public function dashboradcat()
+    {
+        $sql = "SELECT * FROM `catégorie`;";
         $res = [];
         foreach (mysqli_query($this->conn, $sql) as $re) {
             array_push($res, $re);
@@ -100,7 +117,7 @@ class crud extends Database
     }
     public function suggestion()
     {
-        $this->query = mysqli_query($this->conn, 'SELECT * FROM produit WHERE `visibility`="true" ORDER BY RAND() LIMIT 3');
+        $this->query = mysqli_query($this->conn, 'SELECT * FROM produit WHERE `visibility`="public" ORDER BY RAND() LIMIT 3');
     }
     public function details()
     {

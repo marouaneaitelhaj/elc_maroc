@@ -1,4 +1,4 @@
-<div class="container m-4">
+<div class="container">
     <div class="container-fluid h-custom bg-light">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-md-9 col-lg-6 col-xl-5">
@@ -32,7 +32,7 @@
                     
 
                     <div class="text-center text-lg-start mt-4 pt-2">
-                        <button type="submit" name="btn"  class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Add category</button>
+                        <button type="submit" name="btn"  class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Edit category</button>
                     </div>
                     <?php
                     }
