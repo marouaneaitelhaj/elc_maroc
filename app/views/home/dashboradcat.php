@@ -29,7 +29,7 @@
                     }
                     ?>
                     <a href="./visibilitycat?id=<?= $read['IdCat'] ?>&vis=<?= $vis ?>">
-                        <button class="btn">change make this <?= $vis ?></button>
+                        <button class="btn">to <?= $vis ?></button>
                     </a>
                 </td>
             </tr>

@@ -37,6 +37,7 @@
         <li class="nav-item">
           <a class="nav-link text-white" href="Categorie">Categorie</a>
         </li>
+
       </ul>
       <!-- Left links -->
     </div>
@@ -63,13 +64,28 @@
           }
         </style>
         <a href="addproduct">
-          <p class="text-white">add product</p>
+          <span>
+            <i class="fa-solid fa-a text-white fa-2xs"></i>
+            <i class="fa-solid fa-p text-white fa-2xs"></i>
+          </span>
         </a>
         <a href="addcategory">
-          <p class="text-white">Addcategory</p>
+          <span>
+            <i class="fa-solid fa-a text-white fa-2xs"></i>
+            <i class="fa-solid fa-c text-white fa-2xs"></i>
+          </span>
         </a>
         <a href="dashborad">
-        <p class="text-white">dashborad</p>
+          <span>
+            <i class="fa-solid fa-d text- fa-2xs"></i>
+            <i class="fa-solid fa-p text-white fa-2xs"></i>
+          </span>
+        </a>
+        <a href="dashboradcat">
+          <span>
+            <i class="fa-solid fa-d text-white fa-2xs"></i>
+            <i class="fa-solid fa-c text-white fa-2xs"></i>
+          </span>
         </a>
       <?php
       }
@@ -83,12 +99,12 @@
           }
         </style>
         <?php
-      if (isset($_GET["id"])) {
-      ?>
+        if (isset($_GET["id"])) {
+        ?>
           <i class="fas fa-shopping-cart" onclick="toggleShoppingCart()"></i>
-          <?php
-          }
-          ?>
+        <?php
+        }
+        ?>
 
         <!-- Notifications -->
         <div class="dropdown">
@@ -141,7 +157,7 @@
   <!-- Container wrapper -->
 </nav>
 
-          
+
 <!-- Navbar -->
 <script>
   function toggleShoppingCart() {

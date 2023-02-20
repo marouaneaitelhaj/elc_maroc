@@ -57,14 +57,26 @@
                         <h3 class="text-center"><?= $produit['libelle'] ?></h3>
                         <p class="text-center">Price: <?= $produit['prixfinal'] ?>$<span id="price">0</span></p>
                         <form>
-                            <div class="form-group">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" name="quan" class="form-control" id="quantity" value="1">
-                            </div>
+                            <?php
+                            if (isset($_SESSION["TYPEACC"]) && $_SESSION["TYPEACC"] == 'user') {
+                            ?>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" name="quan" class="form-control" id="quantity" value="1">
+                                </div>
+                            <?php
+                            }
+                            ?>
                             <div class="form-group">
                                 <p><?= $produit['description'] ?></p>
                             </div>
-                            <button type="submit" name="btn" class="btn  btn-block">Add to Cart</button>
+                            <?php
+                            if (isset($_SESSION["TYPEACC"]) && $_SESSION["TYPEACC"] == 'user') {
+                            ?>
+                                <button type="submit" name="btn" class="btn  btn-block">Add to Cart</button>
+                            <?php
+                            }
+                            ?>
                         </form>
                     </div>
                     <div class="col-md-6">
@@ -77,7 +89,7 @@
         ?>
     </div>
     <div class="container">
-        <div class="d-flex justify-content-between flex-wrap">
+        <div class="d-flex justify-content-around flex-wrap">
             <?php
             while ($suggestion = mysqli_fetch_array($data['suggestion'])) {
             ?>

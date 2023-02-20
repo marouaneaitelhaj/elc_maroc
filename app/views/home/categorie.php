@@ -12,14 +12,7 @@
                         <p class="card-text"><?= $cat['description'] ?></p>
                         <a href="./productlist?cat=<?= $cat['IdCat'] ?>" class="btn m-4">See Product</a>
                         <br>
-                        <?php
-                        if (isset($_SESSION["TYPEACC"]) && $_SESSION["TYPEACC"] == 'admin') {
-                        ?>
-                            <a href="./DeleteCat?id=<?= $cat['IdCat'] ?>" class="btn p-1" style="background-color: #d9534f;">Delete</a>
-                            <a href="./editCat?id=<?= $cat['IdCat'] ?>" class="btn p-1" style="background-color: #337ab7;">Edit</a>
-                        <?php
-                        }
-                        ?>
+                        
                     </div>
                 </div>
             </div>

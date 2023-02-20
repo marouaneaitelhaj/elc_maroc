@@ -4,6 +4,6 @@ class DeleteCat extends controller{
         $this->model('Database');
         $DeleteCat = $this->model('crud');
         $DeleteCat->DeleteCat($_GET['id']);
-        header('location: ./Categorie');
+        header('location: ./dashboradcat');
     }
 }

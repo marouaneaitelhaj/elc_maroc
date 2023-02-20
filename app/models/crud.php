@@ -9,7 +9,7 @@ class crud extends Database
     public function addcategory($value1, $value2, $value3)
     {
         $image = $value3["name"];
-        $sql = "INSERT INTO catégorie (nom, description, photo) VALUES ('$value1','$value2','$image');";
+        $sql = "INSERT INTO catégorie (nom, description, photo,visibility) VALUES ('$value1','$value2','$image','public');";
         mysqli_query($this->conn, $sql);
     }
     public function count()
@@ -94,7 +94,7 @@ class crud extends Database
     public function addproduct($value1, $value3, $value4, $value5, $value6, $value7, $value8)
     {
         $image = $value8["name"];
-        $sql = "INSERT INTO produit (libelle, prixdachat, prixfinal, Prixoffre, description, catégorie,picProcuct,visibility) VALUES ('$value1','$value3','$value4','$value5','$value6','$value7','$image',public);";
+        $sql = "INSERT INTO produit (libelle, prixdachat, prixfinal, Prixoffre, description, catégorie,picProcuct,visibility) VALUES ('$value1','$value3','$value4','$value5','$value6','$value7','$image','public');";
         mysqli_query($this->conn, $sql);
     }
     public function readCatégorie()
@@ -169,9 +169,8 @@ class crud extends Database
     }
     public function addtocart($value1, $value2, $value3, $value4, $value5)
     {
-        $sql = "INSERT INTO cart (IdPrd, prixtotal, prixunitaire, quantite,client, situation) VALUES ('$value1','$value2', '$value3', '$value4','$value5', 'notdone');";
+        $sql = "INSERT INTO cart (IdPrd, prixtotal, prixunitaire, quantite,client, situation) VALUES ('$value1','$value2', '$value3', '$value4','$value5', 'notdone') ON DUPLICATE KEY UPDATE quantite = quantite + '$value4';";
         mysqli_query($this->conn, $sql);
-        echo "ksjqhkjqhdsjskd";
     }
     public function readcart($value1)
     {
