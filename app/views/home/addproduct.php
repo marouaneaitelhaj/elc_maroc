@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container d-flex justify-content-center align-items-center">
     <div class="container-fluid d-flex justify-content-around h-custom bg-light">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-md-9 col-lg-6 col-xl-5">

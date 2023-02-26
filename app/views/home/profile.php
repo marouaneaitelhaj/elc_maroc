@@ -57,13 +57,16 @@
                 <input hidden name="Cancelid" value="<?= $profile['id'] ?>" type="text">
                 <td>
                   <?php
-  if(!$profile['situation'] == 'sent' and isset($_SESSION["TYPEACC"]) and $_SESSION["TYPEACC"] == 'admin'){
+                  if (!$profile['situation'] == 'sent' and isset($_SESSION["TYPEACC"]) and $_SESSION["TYPEACC"] == 'admin') {
                   ?>
-                  <button type="submit" name="Valide" class="btn btn-danger">Valide</button>
+                    <button type="submit" name="Valide" class="btn btn-danger">Valide</button>
                   <?php
-                }
+                  }
                   ?>
                   <button type="submit" name="Cancel" class="btn btn-danger">Cancel</button>
+                  <a href="facture?id=<?= $profile['id'] ?>">
+                    <button type="button" class="btn">Facture</button>
+                  </a>
                 </td>
               </form>
             </tr>

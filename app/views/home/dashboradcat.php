@@ -1,4 +1,6 @@
-<table class="table">
+<div class="d-flex justify-content-center">
+
+<table class="table m-4 w-75">
     <thead>
         <tr>
             <th scope="col">name</th>
@@ -38,3 +40,12 @@
         ?>
     </tbody>
 </table>
+<style>
+    td {
+        text-align: center;
+    }
+    th {
+        text-align: center;
+    }
+</style>
+</div>

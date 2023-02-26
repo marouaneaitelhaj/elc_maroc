@@ -87,6 +87,13 @@
             <i class="fa-solid fa-c text-white fa-2xs"></i>
           </span>
         </a>
+        <a href="allclient">
+          <span>
+            <i class="fa-solid fa-u text-white fa-2xs"></i>
+            <i class="fa-solid fa-s text-white fa-2xs"></i>
+            <i class="fa-solid fa-r text-white fa-2xs"></i>
+          </span>
+        </a>
       <?php
       }
       ?>
