@@ -26,12 +26,16 @@ class crud extends Database
         if (isset($_GET['id']) and isset($_GET['cat'])) {
             $id = ($_GET['id'] - 1) * 9;
             $cat = $_GET['cat'];
-            $sql = "SELECT * FROM `produit` where `visibility`='public' and  `catégorie`=$cat LIMIT $id,9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='public' and  `catégorie`='$cat' and (SELECT `visibility` FROM `catégorie` WHERE `IdCat`=$cat) ='public'  LIMIT $id,9;";
         } elseif (isset($_GET['id'])) {
             $id = ($_GET['id'] - 1) * 9;
-            $sql = "SELECT * FROM `produit` where `visibility`='public'  LIMIT $id, 9;";
-        } else {
-            $sql = "SELECT * FROM `produit` where `visibility`='public' LIMIT  9;";
+            $sql = "SELECT p.* FROM `produit` p JOIN `catégorie` c ON p.`catégorie` = c.`IdCat` WHERE c.`visibility` = 'public' LIMIT $id, 9;";
+        }elseif (isset($_GET['cat'])) {
+            $cat = $_GET['cat'];
+            $sql = "SELECT * FROM `produit` where `visibility`='public' and `catégorie`='$cat' and (SELECT `visibility` FROM `catégorie` WHERE `IdCat`=$cat) LIMIT 9;";
+        }
+         else {
+            $sql = "SELECT p.* FROM `produit` p JOIN `catégorie` c ON p.`catégorie` = c.`IdCat` WHERE c.`visibility` = 'public' LIMIT 9;";
         }
         $res = [];
         foreach (mysqli_query($this->conn, $sql) as $re) {
@@ -45,7 +49,6 @@ class crud extends Database
         $vis = $_GET['vis'];
         $sql = "UPDATE `produit` SET `visibility`='$vis' WHERE `IdPrd`=$id ";
         mysqli_query($this->conn, $sql);
-        var_dump($sql);
     }
     public function visibilitycat()
     {
@@ -53,7 +56,6 @@ class crud extends Database
         $vis = $_GET['vis'];
         $sql = "UPDATE `catégorie` SET `visibility`='$vis' WHERE `IdCat`=$id ";
         mysqli_query($this->conn, $sql);
-        var_dump($sql);
     }
     public function admnlimitread()
     {
@@ -77,7 +79,6 @@ class crud extends Database
     {
         $sql = "DELETE FROM `catégorie` WHERE IdCat='$value1';";
         mysqli_query($this->conn, $sql);
-        var_dump($sql);
     }
     public function editcategory($value1, $value2, $value3, $value4)
     {
@@ -107,13 +108,13 @@ class crud extends Database
     }
     public function productlist()
     {
-        // $sql = ("SELECT * FROM product");
-        if (isset($_GET['cat'])) {
-            $category = mysqli_real_escape_string($this->conn, $_GET['cat']);
-            $this->query = mysqli_query($this->conn, "SELECT * FROM produit where catégorie='$category'");
-        } else {
-            $this->query = mysqli_query($this->conn, 'SELECT * FROM produit');
-        }
+        // if (isset($_GET['cat'])) {
+            // $cat = $_GET['cat'];
+            
+        // } else {
+            // $sql = "SELECT * FROM `produit` where `visibility`='public';";
+            // $this->query = mysqli_query($this->conn, "$sql");
+        // }
     }
     public function suggestion()
     {
@@ -128,7 +129,6 @@ class crud extends Database
     {
         $sql = "DELETE FROM `produit` WHERE IdPrd='$value1';";
         mysqli_query($this->conn, $sql);
-        var_dump($sql);
     }
     public function editproduct($value1, $value2, $value3, $value4, $value5, $value6, $value7)
     {
@@ -167,14 +167,14 @@ class crud extends Database
             }
         }
     }
-    public function addtocart($value1, $value2, $value3, $value4, $value5)
+    public function addtocart($value1, $value2)
     {
-        $sql = "INSERT INTO cart (IdPrd, prixtotal, prixunitaire, quantite,client, situation) VALUES ('$value1','$value2', '$value3', '$value4','$value5', 'notdone') ON DUPLICATE KEY UPDATE quantite = quantite + '$value4';";
+        $sql = "INSERT IGNORE INTO cart (IdPrd, client) VALUES ('$value1','$value2')";
         mysqli_query($this->conn, $sql);
     }
     public function readcart($value1)
     {
-        $sql = "SELECT * FROM cart JOIN produit on cart.IdPrd = produit.IdPrd WHERE client='$value1' AND situation='notdone';";
+        $sql = "SELECT * FROM cart JOIN produit on cart.IdPrd = produit.IdPrd WHERE client='$value1'";
         return mysqli_query($this->conn, $sql);
     }
     public function allclient()
@@ -191,27 +191,20 @@ class crud extends Database
         }
         $this->query = mysqli_query($this->conn, $sql);
     }
-    public function addcommand($value1, $value2, $value3, $value4)
+    public function addcommand($value1, $value2, $value3, $value4, $value5,$value6)
     {
-        $idcmnd = 0;
-        //some
-        // $sql = "SELECT prixtotal FROM cart JOIN produit on cart.IdPrd = produit.IdPrd WHERE client='$value1' AND situation='notdone';";
-        $sql = "SELECT SUM(`prixtotal`) AS total FROM cart WHERE client='$value4' AND situation='notdone';";
-        $result = mysqli_query($this->conn, $sql);
-        foreach ($result as $total) {
-            //insert
-            var_dump($total);
-            $tota = $total['total'];
-            $sql = "INSERT INTO `commande` (`datedecreation`, `datedenvoi`, `datedelivraison`, `idclient`, `prixtotaldelacommande`) VALUES ('$value1', '$value2', '$value3', '$value4', '$tota');";
-        }
+        $sql = "INSERT INTO `commande` (`datedecreation`,`idclient`, `prixtotaldelacommande`) VALUES (NOW(), '$value2', '$value1');";
         mysqli_query($this->conn, $sql);
-        $sql = "SELECT LAST_INSERT_ID();";
+        $sql = "SELECT LAST_INSERT_ID() as id;";
         $result = mysqli_query($this->conn, $sql);
-        foreach ($result as $idcmnd) {
-            $idcmnd = $idcmnd['LAST_INSERT_ID()'];
-        }
-        $sql = "UPDATE cart SET situation='done', IdCmnd='$idcmnd' where client='$value4'";
+        $row = mysqli_fetch_assoc($result);
+        $id = $row['id'];
+        for($i=0;$i<count($value3);$i++){
+        $sql = "INSERT INTO `productofcommand`(`ProductId`, `CommandId`, `Price`, `quan`, `total`) VALUES ($value3[$i],$id,$value4[$i],$value5[$i],$value6[$i])";
         mysqli_query($this->conn, $sql);
+        $sql = "DELETE FROM cart where client=$value2;";
+        mysqli_query($this->conn, $sql);
+        }
     }
     public function deletefromcart($value1)
     {
@@ -225,7 +218,7 @@ class crud extends Database
     }
     public function Validecmnd($value1)
     {
-        $sql = "UPDATE commande SET `situation`='sent' WHERE `id`=$value1;";
+        $sql = "UPDATE commande SET `situation`='sent', datedelivraison=DATE_ADD(NOW(), INTERVAL 3 DAY) WHERE `id`=$value1;";
         mysqli_query($this->conn, $sql);
     }
 }

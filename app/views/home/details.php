@@ -10,7 +10,6 @@
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Price</th>
-                            <th>Total</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -21,12 +20,14 @@
                             <tr>
                                 <td><?= $cart['libelle'] ?></td>
                                 <td>
-                                    <p><?= $cart['quantite'] ?></p>
+                                    <input  value="1" min="1" class='quantity'  name="quantity[]" type="number" class="w-50">
+                                    <input  value="1" min="1" class='minitotal'  hidden name="minitotal[]" type="number" class="w-50">
                                 </td>
+                                
                                 <input type="text" value="<?= $cart['id'] ?>" hidden name="deleteid" id="">
-
-                                <td><?= $cart['prixunitaire'] ?>$</td>
-                                <td><?= $cart['prixtotal'] ?>$</td>
+                                <input type="text" value="<?= $cart['IdPrd'] ?>"  hidden name="productid[]" id="">
+                                <input type="text" value="<?= $cart['prixfinal'] ?>" hidden name="productprice[]" id="">
+                                <td class="price"><?= $cart['prixfinal'] ?></td>
                                 <td>
                                     <button type="submit" name="delete" class="btn btn-danger btn-sm">Delete</button>
                                 </td>
@@ -41,7 +42,8 @@
             </div>
             <div class="col-md-4">
                 <h2>Order Summary</h2>
-                <p>Total: $88.00</p>
+                <p>Total: $<span id="total"></span></p>
+                <input type="number" name="total" hidden id='total1'>
                 <button type="submit" name="BuyNOW" class="btn  btn-block mt-5">Place Order</button>
             </div>
         </div>
@@ -60,10 +62,6 @@
                             <?php
                             if (isset($_SESSION["TYPEACC"]) && $_SESSION["TYPEACC"] == 'user') {
                             ?>
-                                <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="number" name="quan" class="form-control" id="quantity" value="1">
-                                </div>
                             <?php
                             }
                             ?>
@@ -110,3 +108,38 @@
         </div>
     </div>
 </form>
+<script>
+    var total = 0;
+    var quantity = 0;
+    var price = 0;
+    var minitotal = 0;
+    for(var i = 0; i < document.getElementsByClassName('quantity').length; i++){
+        document.getElementsByClassName('quantity')[i].addEventListener('input', function(){
+            total = 0;
+            quantity = 0;
+            price = 0;
+            for(var j = 0; j < document.getElementsByClassName('quantity').length; j++){
+                quantity = document.getElementsByClassName('quantity')[j].value;
+                price = document.getElementsByClassName('price')[j].innerHTML;
+                total = total + (quantity * price);
+                minitotal = quantity * price;
+                document.getElementsByClassName('minitotal')[j].value = minitotal;
+                minitotal = 0;
+                document.querySelector("#total").innerHTML = total;
+                document.querySelector("#total1").value = total;
+            
+        }
+    })
+    }
+    for(var j = 0; j < document.getElementsByClassName('quantity').length; j++){
+                quantity = document.getElementsByClassName('quantity')[j].value;
+                price = document.getElementsByClassName('price')[j].innerHTML;
+                total = total + (quantity * price);
+                minitotal = quantity * price;
+                document.getElementsByClassName('minitotal')[j].value = minitotal;
+                minitotal = 0;
+                document.querySelector("#total").innerHTML = total;
+                document.querySelector("#total1").value = total;
+            
+        }
+</script>
