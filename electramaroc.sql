@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2023 at 02:30 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Generation Time: Mar 03, 2023 at 11:49 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `admin` (
   `email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
   `login` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -41,22 +41,9 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `cart` (
   `IdPrd` int(11) NOT NULL,
-  `id` int(11) NOT NULL,
-  `prixtotal` int(11) NOT NULL,
-  `prixunitaire` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL,
   `client` int(11) NOT NULL,
-  `IdCmnd` int(11) NOT NULL,
-  `situation` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`IdPrd`, `id`, `prixtotal`, `prixunitaire`, `quantite`, `client`, `IdCmnd`, `situation`) VALUES
-(39, 193, 46, 2, 23, 22, 262, 'done'),
-(39, 195, 30, 2, 15, 22, 262, 'done');
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -68,18 +55,9 @@ CREATE TABLE `catégorie` (
   `IdCat` int(11) NOT NULL,
   `nom` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,
-  `photo` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `catégorie`
---
-
-INSERT INTO `catégorie` (`IdCat`, `nom`, `description`, `photo`) VALUES
-(13, 'headphones', 'Bose Noise Cancelling Headphones 700 – Casque Bluetooth sans fil Supra-Aural avec Microphone Intégré', '3.png'),
-(14, 'PHONES', 'Amazon.fr: mobile phones. ... Cher 4500mAh Quad Core, 16Go ROM/SD-128Go, 8MP Caméra, Double SIM Mobi', '71mSoImBQBL._AC_SX679_.jpg'),
-(15, 'PC', 'Thomson Ordinateur PC Portable Neo 14,1 Pouces, Intel Celeron N3350, 4Gb RAM, 64Gb Stockage SSD, Win', 'QQQQ.jpg'),
-(16, 'KEYBOARD', 'KDJFHDJ Typewriter Wireless Gaming Keyboard Mechanical Keyboard 87 Key Gaming Keypad Blue Switch ave', '410pxTXAPCL._AC_.jpg');
+  `photo` varchar(100) NOT NULL,
+  `visibility` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -96,7 +74,7 @@ CREATE TABLE `client` (
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `login` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -110,16 +88,24 @@ CREATE TABLE `commande` (
   `datedenvoi` varchar(250) NOT NULL,
   `datedelivraison` varchar(250) NOT NULL,
   `idclient` int(11) NOT NULL,
-  `prixtotaldelacommande` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `prixtotaldelacommande` int(11) NOT NULL,
+  `situation` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `commande`
+-- Table structure for table `productofcommand`
 --
 
-INSERT INTO `commande` (`id`, `datedecreation`, `datedenvoi`, `datedelivraison`, `idclient`, `prixtotaldelacommande`) VALUES
-(261, '2023-01-02 11:29:22', '2023-01-04 11:29:22', '2023-01-09 11:29:22', 22, 46),
-(262, '2023-01-02 11:51:00', '2023-01-04 11:51:00', '2023-01-09 11:51:00', 22, 30);
+CREATE TABLE `productofcommand` (
+  `id` int(11) NOT NULL,
+  `ProductId` int(11) NOT NULL,
+  `CommandId` int(11) NOT NULL,
+  `Price` int(11) NOT NULL,
+  `quan` int(11) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -136,21 +122,9 @@ CREATE TABLE `produit` (
   `Prixoffre` int(11) NOT NULL,
   `description` varchar(50) NOT NULL,
   `catégorie` int(11) NOT NULL,
-  `picProcuct` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `produit`
---
-
-INSERT INTO `produit` (`IdPrd`, `libelle`, `codebarre`, `prixdachat`, `prixfinal`, `Prixoffre`, `description`, `catégorie`, `picProcuct`) VALUES
-(38, 'Bose Noise Cancelling Headphones 700 – Casque Blue', '', 12, 15, 20, 'Casques et écouteurs: 20,3 cm (H) x 16,5 cm (L) x ', 13, '1.png'),
-(39, 'Sony MDR-ZX110B Casque Pliable - Noir', '', 1, 2, 3, 'Diaphragmes de 30 mm en forme de dôme pour un son ', 13, '3.png'),
-(40, 'Samsung Galaxy S20 FE «Fan Edition», Téléphone mob', '', 1, 2, 3, 'Le Galaxy S20 FE 5G est un smartphone haut de gamm', 14, '71NbGttIUQL._AC_SX522_.jpg'),
-(41, 'CyberpowerPC Gamer Xtreme VR Gaming PC, Intel Core', '', 5, 55, 555, 'System: Intel Core i5-9400F 2.9 GHz 6-Core: Intel ', 15, '71fVpfx5oiL._AC_SX679_.jpg'),
-(42, 'Skytech Shiva Gaming PC Desktop - AMD Ryzen 5 2600', '', 6, 66, 666, '✔ AMD Ryzen 5 2600 6-Core 3.4 GHz (3.9 GHz Turbo) ', 15, '810epc7PeYL._AC_SX679_.jpg'),
-(43, 'VIBOX - VIII-56 PC Gamer SG-Series', '', 99, 999, 999, 'Vibox VIII-56 PC Gamer SG-Series - 27\" 144Hz Écran', 15, 'viii-56-pc-gamer-sg-series-10964948-726962_2_600x600.jpg'),
-(44, 'HyperX Alloy Core RGB – Clavier Gaming Membrane (A', '', 34, 234, 242, 'Barre lumineuse exclusive et effets lumineux RGB d', 16, '61+IicQWwaL._AC_SX679_.jpg');
+  `picProcuct` varchar(250) NOT NULL,
+  `visibility` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -165,7 +139,7 @@ CREATE TABLE `user` (
   `TYPEACC` varchar(50) NOT NULL,
   `id` int(11) NOT NULL,
   `userPic` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
@@ -185,6 +159,7 @@ INSERT INTO `user` (`login`, `Password`, `email`, `TYPEACC`, `id`, `userPic`) VA
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_cart_unique` (`IdPrd`,`client`),
   ADD KEY `IdPrd` (`IdPrd`),
   ADD KEY `cart_ibfk_2` (`client`);
 
@@ -208,6 +183,14 @@ ALTER TABLE `commande`
   ADD KEY `id client` (`idclient`);
 
 --
+-- Indexes for table `productofcommand`
+--
+ALTER TABLE `productofcommand`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `productofcommand_ibfk_1` (`CommandId`),
+  ADD KEY `productofcommand_ibfk_2` (`ProductId`);
+
+--
 -- Indexes for table `produit`
 --
 ALTER TABLE `produit`
@@ -228,13 +211,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `catégorie`
 --
 ALTER TABLE `catégorie`
-  MODIFY `IdCat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `IdCat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -246,13 +229,19 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT for table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=311;
+
+--
+-- AUTO_INCREMENT for table `productofcommand`
+--
+ALTER TABLE `productofcommand`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `IdPrd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `IdPrd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -276,6 +265,13 @@ ALTER TABLE `cart`
 --
 ALTER TABLE `commande`
   ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`idclient`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `productofcommand`
+--
+ALTER TABLE `productofcommand`
+  ADD CONSTRAINT `productofcommand_ibfk_1` FOREIGN KEY (`CommandId`) REFERENCES `commande` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `productofcommand_ibfk_2` FOREIGN KEY (`ProductId`) REFERENCES `produit` (`IdPrd`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `produit`

@@ -32,7 +32,7 @@ class crud extends Database
             $sql = "SELECT p.* FROM `produit` p JOIN `catégorie` c ON p.`catégorie` = c.`IdCat` WHERE c.`visibility` = 'public' LIMIT $id, 9;";
         } elseif (isset($_GET['cat'])) {
             $cat = $_GET['cat'];
-            $sql = "SELECT * FROM `produit` where `visibility`='public' and `catégorie`='$cat' and (SELECT `visibility` FROM `catégorie` WHERE `IdCat`=$cat) LIMIT 9;";
+            $sql = "SELECT * FROM `produit` where `visibility`='public' and `catégorie`='$cat' and (SELECT `visibility` FROM `catégorie` WHERE `IdCat`=$cat) ='public' LIMIT 9;";
         } else {
             $sql = "SELECT p.* FROM `produit` p JOIN `catégorie` c ON p.`catégorie` = c.`IdCat` WHERE c.`visibility` = 'public' LIMIT 9;";
         }
@@ -175,9 +175,9 @@ class crud extends Database
     {
         $id = $_GET['id'];
         $clie = $_SESSION["id"];
-        $sql = "SELECT * FROM `commande` WHERE `id`=$id;";
+        $sql = "SELECT * FROM `productofcommand` JOIN `produit` ON `productofcommand`.`ProductId` = `produit`.`IdPrd` JOIN `commande` ON `productofcommand`.`CommandId` = `commande`.`id` WHERE `CommandId` = '$id';";
         $result = mysqli_query($this->conn, $sql);
-        $row = mysqli_fetch_assoc($result);
+        $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
         return $row;
     }
     public function readcart($value1)
@@ -187,7 +187,7 @@ class crud extends Database
     }
     public function allclient()
     {
-        $sql = "SELECT * FROM `user` where TYPEACC=;";
+        $sql = "SELECT * FROM `user` where TYPEACC='user';";
         $this->query = mysqli_query($this->conn, $sql);
     }
     public function profile($value1)

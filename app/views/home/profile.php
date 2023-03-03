@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container w-100">
   <img src="../uploads/<?= $_SESSION['userPic'] ?>" class="m-4 rounded-circle img-thumbnail" style="height: 150px;width:150px;" alt="">
   <h3><?= $_SESSION['username'] ?></h3>
-  <div>
-    <div class="m-4">
-      <table class="table">
+  <div class="w-100">
+    <div class="w-100">
+      <table class="table w-100">
         <thead>
           <tr>
             <th scope="col">#</th>

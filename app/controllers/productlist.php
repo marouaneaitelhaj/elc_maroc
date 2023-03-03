@@ -8,6 +8,7 @@ class productlist extends controller
         $readcat->readCatégorie();
         $pagination = $this->model('crud');
         $limitread = $this->model('crud');
+        $limitread->limitread();
         $this->viewjs('productlist', ['limitread' => $limitread->limitread(), 'count' => $pagination->count(), 'cat' => $readcat->query]);
     }
 }

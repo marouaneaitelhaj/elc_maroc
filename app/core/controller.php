@@ -7,6 +7,16 @@ class controller
         require_once '../app/models/' . $model . '.php';
         return new $model();
     }
+    public function admin(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (isset($_SESSION["TYPEACC"]) && $_SESSION["TYPEACC"] == 'admin') {
+            return true;
+        }else{
+            header('Location: ./');
+        }
+    }
     public function view($view, $data = [])
     {
         if (session_status() == PHP_SESSION_NONE) {

@@ -3,6 +3,8 @@ class addproduct extends controller
 {
     public function __construct()
     {
+        $this->admin();
+
         $this->model('Database');
         $read = $this->model('crud');
         $read->readCatégorie();

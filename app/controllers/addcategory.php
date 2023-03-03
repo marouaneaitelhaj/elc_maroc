@@ -3,6 +3,8 @@ class addcategory extends controller
 {
     public function __construct()
     {
+        $this->admin();
+
         $this->view('addcategory');
         if (isset($_POST['btn'])) {
             $target_dir = "../uploads/";
