@@ -1,8 +1,8 @@
 <div class="container w-100 d-flex justify-content-center align-items-center">
     <div class="card w-100">
-        <div class="card-body w-100 mx-4">
-            <div class="container w-100">
-                <p class="my-5 w-100 mx-5" style="font-size: 30px;">Thank for your purchase</p>
+        <div class="card-body w-100">
+            <div class="">
+                <p class="w-100" style="font-size: 30px;">Thank for your purchase</p>
                 <div class="w-100 row">
                     <hr>
 

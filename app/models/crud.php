@@ -122,7 +122,7 @@ class crud extends Database
     public function details()
     {
         $idprd = mysqli_real_escape_string($this->conn, $_GET['id']);
-        $this->query = mysqli_query($this->conn, "SELECT * FROM produit where IdPrd='$idprd'");
+        $this->query = mysqli_query($this->conn, "SELECT * FROM produit JOIN catégorie ON produit.catégorie = catégorie.IdCat WHERE IdPrd = '$idprd';");
     }
     public function delete($value1)
     {
@@ -134,9 +134,9 @@ class crud extends Database
         $idprd = mysqli_real_escape_string($this->conn, $_GET['id']);
         if (!$value7["size"] == 0) {
             $image = $value7["name"];
-            $sql = "UPDATE produit SET libelle='$value1', prixdachat='$value2', prixfinal='$value3', Prixoffre='$value4',description='$value5', picProcuct='$image' where IdPrd='$idprd' ;";
+            $sql = "UPDATE produit SET libelle='$value1', prixdachat='$value2',catégorie='$value6', prixfinal='$value3', Prixoffre='$value4',description='$value5', picProcuct='$image' where IdPrd='$idprd' ;";
         } else {
-            $sql = "UPDATE produit SET libelle='$value1', prixdachat='$value2', prixfinal='$value3', Prixoffre='$value4',description='$value5'  where IdPrd='$idprd';";
+            $sql = "UPDATE produit SET libelle='$value1',catégorie='$value6', prixdachat='$value2', prixfinal='$value3', Prixoffre='$value4',description='$value5'  where IdPrd='$idprd';";
         }
         mysqli_query($this->conn, $sql);
 

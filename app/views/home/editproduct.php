@@ -26,7 +26,7 @@
                     <div class="form-outline mb-4" style="text-align: left;">
                         <label class="form-label" for="form3Example3">Catégorie</label>
                         <select id="select" class="form-select border" name="catégorie" aria-label="Default select example">
-                            <option  selected hidden value="value="<?=$details['catégorie']?>""><?=$details['catégorie']?></option>
+                            <option  selected hidden value="value="<?=$details['catégorie']?>""><?=$details['nom']?></option>
                             <?php
                             while ($cat = mysqli_fetch_array($data['query'])) {
                             ?>
